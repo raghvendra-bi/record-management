@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import com.bi.recordmanagement.exception.CustomOauthException;
 import com.bi.recordmanagement.exception.EntityNotFoundException;
 
+import java.util.NoSuchElementException;
+
 /**
  * @author narendra
  * This class would be used to handle Oauth2Exceptions

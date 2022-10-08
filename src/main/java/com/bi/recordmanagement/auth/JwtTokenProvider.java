@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +21,8 @@ import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.stereotype.Component;
 
-import com.bi.recordmangement.models.User;
+import com.bi.recordmanagement.models.Role;
+import com.bi.recordmanagement.models.User;
 
 
 /**
@@ -41,12 +43,11 @@ public class JwtTokenProvider {
     
         Map<String, String> requestParameters = new HashMap<String, String>();
 		Map<String, Serializable> extensionProperties = new HashMap<String, Serializable>();
-
-		List<String> scopes =  new ArrayList<String>();
-		scopes.add("USER");
-		List<String> roles  =  new ArrayList<String>();
-		roles.add("USER");
-
+    	List<Role> roles = user.getRoles().stream().collect(Collectors.toList());
+    	List<String> scopes = roles.stream()
+    		    .map(Role::getName)
+    		    .collect(Collectors.toList());
+    	
 		boolean approved = true;
 		Set<String> responseTypes = new HashSet<String>();
 		responseTypes.add("code");
@@ -54,9 +55,9 @@ public class JwtTokenProvider {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		authorities.add(new SimpleGrantedAuthority("ROLE" + roles));
 
-		OAuth2Request oauth2Request = new OAuth2Request(requestParameters, "lfs-client", authorities, approved, new HashSet<String>(scopes),
+		OAuth2Request oauth2Request = new OAuth2Request(requestParameters, user.getClientId(), authorities, approved, new HashSet<String>(scopes),
 				new HashSet<String>(Arrays.asList("api")), null, responseTypes, extensionProperties);
-
+		
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, "N/A", authorities);
 		OAuth2Authentication auth = new OAuth2Authentication(oauth2Request, authenticationToken);
 		AuthorizationServerTokenServices tokenService = configuration.getEndpointsConfigurer().getTokenServices();

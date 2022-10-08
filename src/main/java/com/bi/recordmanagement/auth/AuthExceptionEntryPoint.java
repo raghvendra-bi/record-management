@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
+import com.bi.recordmanagement.utils.AuthUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.lfs.auth.utils.AuthUtility;
 
 public class AuthExceptionEntryPoint implements AuthenticationEntryPoint {
 
@@ -29,15 +29,11 @@ public class AuthExceptionEntryPoint implements AuthenticationEntryPoint {
 		}
 
 		Map map = new HashMap();
-//		map.put("requested", AuthUtility.getRequestedIP(request));
-		map.put("error", response.getStatus());			
+		map.put("requested", AuthUtility.getRequestedIP(request));
+		map.put("error", response.getStatus());
 		map.put("message", authException.getMessage());
-		
 		if (request.getAttribute("captcha") != null) {
 			map.put("captcha", request.getAttribute("captcha"));
-		}
-		if (request.getAttribute("code") != null) {
-			map.put("code", request.getAttribute("code"));
 		}
 		map.put("path", request.getServletPath());
 		map.put("timestamp", String.valueOf(new Date().getTime()));

@@ -3,7 +3,7 @@ package com.bi.recordmanagement.config;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.bi.recordmangement.models.User;
+import com.bi.recordmanagement.models.User;
 
 import java.util.Optional;
 
@@ -18,7 +18,7 @@ public class AuditorAwareImpl implements AuditorAware<User> {
             try {
                 long userIdL = Long.parseLong(userId);
                 u = new User();
-//                u.setId(userIdL);
+                u.setId(userIdL);
             } catch (NumberFormatException e) {
 
             }

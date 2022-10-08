@@ -24,7 +24,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.bi.recordmanagement.enums.RmExceptionEnum;
-import com.bi.recordmangement.services.MessageByLocaleService;
+import com.bi.recordmanagement.services.MessageByLocaleService;
 import com.bi.recordmanagement.exception.ExceptionResponse;
 
 

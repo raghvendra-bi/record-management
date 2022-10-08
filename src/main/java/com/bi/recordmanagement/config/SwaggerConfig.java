@@ -28,7 +28,7 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-    private String REST_PACKAGE_PATH = "com.bi.recordmangement.controllers";
+    private String REST_PACKAGE_PATH = "com.bi.recordmanagement.controllers";
     @Autowired
     private TypeResolver typeResolver;
 
@@ -110,4 +110,3 @@ public class SwaggerConfig {
 
 
 }
-

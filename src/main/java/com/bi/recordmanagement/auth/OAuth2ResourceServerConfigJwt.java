@@ -1,4 +1,10 @@
 package com.bi.recordmanagement.auth;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +17,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
-//import com.lfs.auth.model.BlobConfigurationKeyImpl;
-//import com.lfs.config.ConfigurationService;
+
+
 
 @Configuration
 @EnableResourceServer
@@ -22,34 +28,33 @@ public class OAuth2ResourceServerConfigJwt extends ResourceServerConfigurerAdapt
     @Autowired
     private CustomAccessTokenConverter customAccessTokenConverter;
     
-//    @Autowired
-//    private ConfigurationService configService;
-
+    
     @Override
     public void configure(final HttpSecurity http) throws Exception {
         // TODO add http method type in ant matchers
                 http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                     .and()
-                    .authorizeRequests().antMatchers("/login*").permitAll()
-            		.antMatchers("/token/revokeById/**").permitAll()
+                    .authorizeRequests().antMatchers("/login").permitAll()
+            		.antMatchers("/oauth/token/revokeById/**").permitAll()
+            		.antMatchers("/login/facebook").permitAll()
             		.antMatchers("/tokens/**").permitAll()
-            		.antMatchers(HttpMethod.POST,"/otps/**").permitAll()
-            		.antMatchers(HttpMethod.POST,"/resetPassword").permitAll()
-            		.antMatchers(HttpMethod.POST,"/users").permitAll()
-            		.antMatchers(HttpMethod.POST,"/users/checkLoginName").permitAll()
-            		.antMatchers(HttpMethod.PUT,"/users/checkEmail").permitAll()
-//            		.antMatchers(HttpMethod.GET,"/forwardLogin&loginNa=*").permitAll()
-            		.antMatchers(HttpMethod.GET,"/forwardLogin*").permitAll()
-//            		.antMatchers(HttpMethod.GET,"/forwardLogin/**").permitAll()
-            		.antMatchers(HttpMethod.POST,"/facebooklogin").permitAll()
-            		.antMatchers(HttpMethod.POST,"/login/facebook").permitAll()
-            		.antMatchers(HttpMethod.POST,"/access/**").permitAll()
-            		.antMatchers("/users/registerUserConfirmations").permitAll()
+            		.antMatchers(HttpMethod.GET, "/api/health").permitAll()
+            		.antMatchers("/oauth/otps/**").permitAll()
+            		.antMatchers("/api/forget-password").permitAll()
+            		.antMatchers(HttpMethod.POST,"/oauth/users/add").permitAll()
+            		.antMatchers(HttpMethod.POST,"/oauth/reset-password").permitAll()
+            		.antMatchers("/oauth/users").permitAll()
+            		.antMatchers(HttpMethod.POST,"/oauth/registerUserWithToken").permitAll()
+            		.antMatchers("/api/reset-password").permitAll()
+            		.antMatchers("/api/specialities").permitAll()
+            		.antMatchers("/oauth/access/**").permitAll()
+            		.antMatchers(HttpMethod.POST, "/api/users").permitAll() 
+            		// TODO should not be open
             		.antMatchers("/configuration/ui","/webjars/**",
-          					 "/swagger-ui/**",
-          					 "/swagger-resources/**",
-          					 "/v2/api-docs",
-          					"/v3/api-docs").permitAll()
+            					 "/swagger-ui.html",
+            					 "/swagger-resources/**",
+            					 "/configuration/security",
+            					 "/v2/api-docs").permitAll()
             		.anyRequest().authenticated();
         // @formatter:on                
     }
@@ -61,9 +66,13 @@ public class OAuth2ResourceServerConfigJwt extends ResourceServerConfigurerAdapt
 
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
+   
         final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setAccessTokenConverter(customAccessTokenConverter);
+        
 //        converter.setVerifierKey(new String(configService.getBlobConfiguration(BlobConfigurationKeyImpl.AUTH_PUBLIC_KEY.getKeyName())));
+        
+      //  converter.setSigningKey("G0Med!!2o18");
         return converter;
     }
 

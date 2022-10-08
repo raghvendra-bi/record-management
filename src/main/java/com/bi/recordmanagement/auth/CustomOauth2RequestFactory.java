@@ -2,6 +2,8 @@ package com.bi.recordmanagement.auth;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,15 +20,15 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-//import com.lfs.auth.services.MessageByLocaleService;
-//import com.lfs.auth.services.UserService;
-import com.bi.recordmanagement.util.RMConstant;
-import com.bi.recordmangement.services.MessageByLocaleService;
-import com.bi.recordmangement.services.UserService;
+import com.bi.recordmanagement.services.MessageByLocaleService;
+import com.bi.recordmanagement.services.UserService;
+import com.bi.recordmanagement.utils.GMConstant;
+
 
 @Component
 public class CustomOauth2RequestFactory extends DefaultOAuth2RequestFactory {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomOauth2RequestFactory.class);
     @Autowired
     private TokenStore tokenStore;
 
@@ -50,20 +52,20 @@ public class CustomOauth2RequestFactory extends DefaultOAuth2RequestFactory {
     	StringBuilder scopeBuilder = new StringBuilder();
 
     	//Customized - check grant_type if its blank then throw the exception
-    	if (StringUtils.isEmpty(requestParameters.get(RMConstant.GRANT_TYPE)))
+    	if (StringUtils.isEmpty(requestParameters.get(GMConstant.GRANT_TYPE)))
     		throw new InvalidGrantException(messageByLocaleService.getMessage("err.user.grant.type.empty"));
     	//Customized - check scopes if its blank then throw the exception
-    	if (requestParameters.get(RMConstant.GRANT_TYPE).equals(RMConstant.PASSWORD)) {
-    		scopeBuilder = userService.addScope(requestParameters.get(RMConstant.USER_NAME), authenticatedClient.getScope());
+    	if (requestParameters.get(GMConstant.GRANT_TYPE).equals(GMConstant.PASSWORD)) {
+    		scopeBuilder = userService.addScope(requestParameters.get(GMConstant.USER_NAME), authenticatedClient.getScope());
     	}
-    	if(StringUtils.isEmpty(scopeBuilder) || scopeBuilder.length() == 0) {
+    	if(StringUtils.isEmpty(scopeBuilder)) {
     		throw new InvalidScopeException(messageByLocaleService.getMessage("err.user.scope.empty"));
     	} else {
-    		requestParameters.put(RMConstant.SCOPE,scopeBuilder.toString() );
+    		requestParameters.put(GMConstant.SCOPE,scopeBuilder.toString() );
     	}
-    	if (requestParameters.get(RMConstant.GRANT_TYPE).equals(RMConstant.REFRESH_TOKEN)) {
+    	if (requestParameters.get(GMConstant.GRANT_TYPE).equals(GMConstant.REFRESH_TOKEN)) {
     		OAuth2Authentication authentication = tokenStore.readAuthenticationForRefreshToken(
-    				tokenStore.readRefreshToken(requestParameters.get(RMConstant.REFRESH_TOKEN)));
+    				tokenStore.readRefreshToken(requestParameters.get(GMConstant.REFRESH_TOKEN)));
 
     		SecurityContextHolder.getContext()
     		.setAuthentication(new UsernamePasswordAuthenticationToken(authentication.getName(), null,
