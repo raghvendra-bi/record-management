@@ -11,11 +11,13 @@ import com.bi.recordmanagement.helper.Helper;
 import com.bi.recordmanagement.models.RecordColumn;
 import com.bi.recordmanagement.models.RecordFile;
 import com.bi.recordmanagement.models.RecordRow;
+import com.bi.recordmanagement.models.User;
 import com.bi.recordmanagement.repository.RecordColumnRepository;
 import com.bi.recordmanagement.repository.RecordFileCustomRepository;
 import com.bi.recordmanagement.repository.RecordFileRepository;
 import com.bi.recordmanagement.repository.RecordProgressRepository;
 import com.bi.recordmanagement.repository.RecordRowRepository;
+import com.bi.recordmanagement.utils.ContextUtil;
 import com.bi.recordmanagement.vo.RecordVo;
 
 import java.io.IOException;
@@ -44,6 +46,9 @@ public class RecordServiceImpl implements RecordService {
     
     @Autowired
     private RecordFileCustomRepository recordFileRepository;
+    
+    @Autowired
+    ContextUtil contextUtil;
 
     @Override
     public void save(MultipartFile file) {
@@ -101,12 +106,18 @@ public class RecordServiceImpl implements RecordService {
     
     @Override
     public Boolean reviewRecords(List<Long> ids) {
-        long updated = this.recordFileRepository.updateModifiedByAndTime("1", ids);
-        if(updated>0) {
-        	return true;
-        } else {
-        	return false;
-        }
+    	Optional<User> loggedInUser = contextUtil.getUser();
+    	if(loggedInUser.isPresent()) {
+    		long updated = this.recordFileRepository.updateModifiedByAndTime("1", ids);
+            if(updated>0) {
+            	return true;
+            } else {
+            	return false;
+            }
+    	} else {
+    		throw new RMServiceException(HttpStatus.UNAUTHORIZED, "You are not authorized");
+    	}
+        
     }
     
     @Override

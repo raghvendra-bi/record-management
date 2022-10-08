@@ -18,7 +18,7 @@ public class RMServiceException extends RuntimeException {
 
     public RMServiceException(String message) {
         super();
-        this.code = HttpStatus.INTERNAL_SERVER_ERROR;
+        this.code = HttpStatus.UNPROCESSABLE_ENTITY;
         this.message = message;
     }
     
