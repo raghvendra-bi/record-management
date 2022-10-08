@@ -50,12 +50,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.bi.recordmanagement.models.TokenString;
 import com.bi.recordmanagement.services.CustomDefaultTokenService;
 
-
-/**
- * @author narendra kumar
- */
-
-
 @Configuration
 @EnableAuthorizationServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)

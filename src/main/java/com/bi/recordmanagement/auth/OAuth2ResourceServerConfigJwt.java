@@ -73,7 +73,7 @@ public class OAuth2ResourceServerConfigJwt extends ResourceServerConfigurerAdapt
         
 //        converter.setVerifierKey(new String(configService.getBlobConfiguration(BlobConfigurationKeyImpl.AUTH_PUBLIC_KEY.getKeyName())));
         
-      //  converter.setSigningKey("G0Med!!2o18");
+      //  converter.setSigningKey("abc!!123");
         return converter;
     }
 

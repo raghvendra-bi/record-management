@@ -12,10 +12,6 @@ import com.bi.recordmanagement.exception.EntityNotFoundException;
 
 import java.util.NoSuchElementException;
 
-/**
- * @author narendra
- * This class would be used to handle Oauth2Exceptions
- */
 
 @Component("customExceptionTranslator")
 public class CustomExceptionTranslator extends DefaultWebResponseExceptionTranslator {

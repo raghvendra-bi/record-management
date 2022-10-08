@@ -46,8 +46,6 @@ public class CustomTokenEnhancer extends JwtAccessTokenConverter {
     @Qualifier("accessTokenServiceImpl")
     @Autowired
     private TokenService tokenService;
-//    @Autowired
-//    private GmcService gmcService;
     @Autowired
     private MessageByLocaleService messageService;
     

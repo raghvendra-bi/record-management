@@ -79,8 +79,6 @@ import lombok.Setter;
 ,@UniqueConstraint(columnNames = {"loginName","clientId","isDeleted"}, name = "user_loginName_client_id_is_deleted")
 })
 @Audited
-//@CustomConstraint(message ="err.user.email.phone.not.found")
-//@CustomOtpConstraint(message = "err.otp.phone.email.empty")
 @Where(clause = "is_deleted = 0")
 public class User implements UserDetails, Serializable {
 
