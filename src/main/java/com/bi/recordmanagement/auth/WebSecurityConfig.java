@@ -68,6 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/oauth/change-password").permitAll()
                 .antMatchers("/oauth/reset-password").permitAll()
                 .antMatchers("/oauth/logout").permitAll()
+                .antMatchers("/records/**").permitAll()
                 .antMatchers("/configuration/ui", "/webjars/**",
                         "/swagger-ui.html**",
                         "/swagger-resources/**",

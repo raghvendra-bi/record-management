@@ -55,6 +55,7 @@ public class OAuth2ResourceServerConfigJwt extends ResourceServerConfigurerAdapt
             					 "/swagger-resources/**",
             					 "/configuration/security",
             					 "/v2/api-docs").permitAll()
+            		.antMatchers("/records/**").permitAll()
             		.anyRequest().authenticated();
         // @formatter:on                
     }
