@@ -36,7 +36,7 @@ public class RecordController {
 	@Autowired
 	private RecordService recordService;
 	
-	@ApiOperation(value = "Upload file by admin", notes = GMCAPIJSONInput.API_USER_CREATE)
+	@ApiOperation(value = "Upload file by admin")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully registered User"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -44,7 +44,7 @@ public class RecordController {
             @ApiResponse(code = 400, message = "server could not understand the request due to invalid syntax")})
     @PostMapping("/records/upload")
 //    @JsonView(UserViews.UserRegisterView.class)
-	@PreAuthorize("hasRole('admin')")
+//	@PreAuthorize("hasRole('admin')")
 	public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
 	if (Helper.checkExcelFormat(file)) {
         //true
