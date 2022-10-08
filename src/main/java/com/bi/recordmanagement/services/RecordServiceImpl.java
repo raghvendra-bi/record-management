@@ -107,8 +107,8 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public Boolean reviewRecords(List<Long> ids) {
     	Optional<User> loggedInUser = contextUtil.getUser();
-    	if(!loggedInUser.isPresent()) {
-    		long updated = this.recordFileRepository.updateModifiedByAndTime("1", ids);
+    	if(loggedInUser.isPresent()) {
+    		long updated = this.recordFileRepository.updateModifiedByAndTime(String.valueOf(loggedInUser.get().getId()), ids);
             if(updated>0) {
             	return true;
             } else {
