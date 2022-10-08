@@ -106,7 +106,7 @@ public class UserServiceImpl extends SearchServiceImpl<User, UserRepository>impl
         if (!listUsers.isEmpty()) {
             List<User> userList = new ArrayList<>();
             getUsers(listUsers).forEach(user -> {
-            	if (user != null && user.isEnabled() && !user.isOwner()) {
+            	if (user != null && user.isEnabled()) {
             		user.setIsDeleted(user.getId());
             		userList.add(user);
             	}
@@ -150,7 +150,15 @@ public class UserServiceImpl extends SearchServiceImpl<User, UserRepository>impl
 
     @Override
     public User createUser(User user, List<String> roleStr) throws RMServiceException {
-        return null;
+    	List<Role> roles = roleService.getRole(roleStr);
+    	user.setRoles(roles);
+		user.setPassword(user.getPassword() != null ? userPasswordEncoder.encode(user.getPassword()): null);
+		if(user.getCreatedOnDate() == null) {
+			user.setCreatedOnDate(new Date());
+		}
+		User savedUser = userRepository.save(user);
+		user.setId(savedUser.getId());
+		return savedUser;
     }
 
 
@@ -191,9 +199,7 @@ public class UserServiceImpl extends SearchServiceImpl<User, UserRepository>impl
 	}
     public void checkAvailableUser(String userName) {
     	
-    	User user = contextUtil.getUser().get();
-    	String loginPattern = userName + "@" + user.getDomain() + ".gmc";
-    	if(!userRepository.existsUserByloginName(loginPattern)) {
+    	if(!userRepository.existsUserByloginName(userName)) {
     		throw new EntityNotFoundException(messageByLocaleService.getMessage("err.clinic.user.name.not.exists"));
     	}
     }

@@ -66,9 +66,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     	BooleanExpression loginExpression = QUser.user.loginName.eq(username);
     	if(username.contains("@")) {
     		BooleanExpression emailExpression =QUser.user.email.eq(username);
-    		if(!clientId.equals("rm-client")){
-    			emailExpression =	emailExpression.and(QUser.user.isEmailVerfied.eq(true));
-    		}
     		expression = expression.and(loginExpression.or(emailExpression));
 
     	}else {
@@ -76,7 +73,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     		if(strArray == null || strArray.length != 2) {
     			throw new BadCredentialsException(messageByLocaleService.getMessage("user.not.found"));
     		}
-    		expression = expression.and(loginExpression.or(QUser.user.phone.eq(strArray[1]).and(QUser.user.phoneCode.eq(strArray[0])).and(QUser.user.isPhoneVerfied.eq(true))));
+    		
     	}
 
     	User user   = userRepository.findOne(expression).orElseThrow(()->  new BadCredentialsException(messageByLocaleService.getMessage("user.not.found")));

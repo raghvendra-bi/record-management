@@ -75,8 +75,6 @@ public class CustomTokenEnhancer extends JwtAccessTokenConverter {
         additionalInfo.put("authorities", authorities.stream().map(authority-> authority.getAuthority()).collect(Collectors.toList()));
         additionalInfo.put("roles", roles);
         additionalInfo.put("email", user.getEmail());
-        additionalInfo.put("phone", user.getPhone());
-        additionalInfo.put("phoneCode", user.getPhoneCode());
         String name = null;
         if(!StringUtils.isEmpty(user.getFirstName())) {
         	name = user.getFirstName();

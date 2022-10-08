@@ -32,6 +32,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 
+import com.bi.recordmanagement.views.AuditableViews.AuditableBasicView;
+import com.bi.recordmanagement.views.OauthUserView;
+import com.bi.recordmanagement.views.OauthUserView.OauthUserBasicView;
+import com.bi.recordmanagement.views.OauthUserView.OauthUserDetailedView;
+import com.bi.recordmanagement.views.PublisherView.AuditableView;
+import com.bi.recordmanagement.views.PublisherView.PublisherBasicView;
+import com.bi.recordmanagement.views.UserBasicView;
+import com.bi.recordmanagement.views.UserViews;
+import com.bi.recordmanagement.views.UserViews.UserPasswordResetView;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 //import com.gm.auth2.services.Searchable;
@@ -65,10 +74,10 @@ import lombok.Setter;
 @Api(value = "User Details")
 @ApiModel(value = "name", description = "desc", reference = "ref")
 @Table(name = "users", uniqueConstraints =
-{@UniqueConstraint(columnNames = {"phoneCode","phone","clientId","isDeleted"}, name = "user_phone_code_phone_clientId_isDeleted_unique")
-,@UniqueConstraint(columnNames = {"email","clientId","isDeleted"}, name = "user_email_clientId_isDeleted_unique")
+{
+@UniqueConstraint(columnNames = {"email","clientId","isDeleted"}, name = "user_email_clientId_isDeleted_unique")
 ,@UniqueConstraint(columnNames = {"loginName","clientId","isDeleted"}, name = "user_loginName_client_id_is_deleted")
-,@UniqueConstraint(columnNames = {"facebookId","clientId"}, name = "user_facebookId_clientId_unique")})
+})
 @Audited
 //@CustomConstraint(message ="err.user.email.phone.not.found")
 //@CustomOtpConstraint(message = "err.otp.phone.email.empty")
@@ -82,75 +91,40 @@ public class User implements UserDetails, Serializable {
 //    @JsonView({AuditableView.class, UserBasicView.class,UserViews.UserRegisterView.class,OauthUserBasicView.class,OauthUserDetailedView.class,TokenBasicView.class})
     private Long id;
 
-//    @NotEmpty(message = "{err.user.phone.empty}", groups = {UserPasswordResetView.class, UserBasicView.class})
-//    @JsonView({PublisherBasicView.class, UserBasicView.class,OauthUserBasicView.class,OauthUserDetailedView.class})
-//    @Searchable
+    @NotEmpty(message = "{err.user.phone.empty}", groups = {UserPasswordResetView.class, UserBasicView.class})
+    @JsonView({PublisherBasicView.class, UserBasicView.class,OauthUserBasicView.class,OauthUserDetailedView.class})
+    @Searchable
     private String loginName;
 
-//    @JsonView({AuditableBasicView.class})
+    @JsonView({AuditableBasicView.class})
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastModifiedDate = new Date();
     
-//    @JsonView({AuditableBasicView.class,UserBasicView.class,UserViews.UserRegisterView.class})
+    @JsonView({AuditableBasicView.class,UserBasicView.class,UserViews.UserRegisterView.class})
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOnDate;
     
-    @Transient
-//    @JsonView({PublisherBasicView.class, UserBasicView.class,UserViews.UserRegisterView.class})
-    private boolean isDoctor;
-
-//    @JsonView({PublisherBasicView.class, UserBasicView.class,UserViews.UserRegisterView.class, UserViews.UserRegisterWithTokenView.class,OauthUserDetailedView.class})
-    private String phone;
     
-//    @JsonView({PublisherBasicView.class, UserBasicView.class,UserViews.UserRegisterView.class,OauthUserDetailedView.class})
+    @JsonView({PublisherBasicView.class, UserBasicView.class,UserViews.UserRegisterView.class,OauthUserDetailedView.class})
     private String firstName;
     
-//    @JsonView({PublisherBasicView.class, UserBasicView.class,UserViews.UserRegisterView.class,OauthUserDetailedView.class})
+    @JsonView({PublisherBasicView.class, UserBasicView.class,UserViews.UserRegisterView.class,OauthUserDetailedView.class})
     private String lastName;
     
     // TODO digit validation
-//    @JsonView({PublisherBasicView.class, UserBasicView.class,UserViews.UserRegisterView.class,OauthUserDetailedView.class, UserViews.UserRegisterWithTokenView.class})
+    @JsonView({PublisherBasicView.class, UserBasicView.class,UserViews.UserRegisterView.class,OauthUserDetailedView.class, UserViews.UserRegisterWithTokenView.class})
     @Email(message = "{err.user.valid.email}")
     private String email;
     
-//    @JsonView({OauthUserDetailedView.class,OauthUserBasicView.class, UserBasicView.class, UserGetView.class})
-    private String profileImageId;
-    
-    @Transient
-    private String facebookAccessToken;
-    
-    private String facebookId;
-    
-    private String facebookImage;
-    
 
-//    @JsonView({UserViews.UserRegisterView.class, UserViews.UserRegisterWithTokenView.class})
-//    @NotBlank(message = "{err.client.empty}", groups = {UserPasswordResetView.class, UserBasicView.class, UserViews.UserRegisterWithTokenView.class})
+    @JsonView({UserViews.UserRegisterView.class, UserViews.UserRegisterWithTokenView.class})
+    @NotBlank(message = "{err.client.empty}", groups = {UserPasswordResetView.class, UserBasicView.class, UserViews.UserRegisterWithTokenView.class})
     private String clientId;
-    
-    
-    private Boolean isPhoneVerfied = Boolean.FALSE;
-
-    private Boolean isEmailVerfied = Boolean.FALSE;
-    
-    private Boolean isAutoGenerated = false;
-    
-    @Transient
-//    @JsonView({UserViews.UserGetView.class,UserViews.UserRegisterView.class})
-    private String accessToken;
-    
-//    @JsonView({PublisherBasicView.class, UserBasicView.class})
-    @Transient
-    private boolean isOwner;
-    
-//    @JsonView({PublisherBasicView.class, UserBasicView.class})
-    @Transient
-    private String otp;
 
 
-    //@Getter(onMethod = @__( @JsonIgnore ))
-//    @NotEmpty(message = "{err.user.password.empty}", groups = {UserViews.UserRegisterView.class, UserViews.UserRegisterWithTokenView.class})
-//   @JsonView({PublisherBasicView.class, UserBasicView.class,UserViews.UserRegisterView.class, UserViews.UserRegisterWithTokenView.class})
+//    @Getter(onMethod = @__( @JsonIgnore ))
+    @NotEmpty(message = "{err.user.password.empty}", groups = {UserViews.UserRegisterView.class, UserViews.UserRegisterWithTokenView.class})
+   @JsonView({PublisherBasicView.class, UserBasicView.class,UserViews.UserRegisterView.class, UserViews.UserRegisterWithTokenView.class})
     private String password;
     
    // @JsonView({PublisherBasicView.class, UserBasicView.class,OauthUserBasicView.class,OauthUserDetailedView.class})
@@ -159,65 +133,31 @@ public class User implements UserDetails, Serializable {
     }
 
     @Getter(onMethod = @__(@JsonIgnore))
-   // @JsonView({PublisherBasicView.class, UserBasicView.class,OauthUserBasicView.class,OauthUserDetailedView.class})
+    @JsonView({PublisherBasicView.class, UserBasicView.class,OauthUserBasicView.class,OauthUserDetailedView.class})
     private boolean accountExpired;
 
     @Getter(onMethod = @__(@JsonIgnore))
-//    @JsonView({PublisherBasicView.class, UserBasicView.class,OauthUserBasicView.class,OauthUserDetailedView.class})
+    @JsonView({PublisherBasicView.class, UserBasicView.class,OauthUserBasicView.class,OauthUserDetailedView.class})
     private boolean accountLocked;
 
     @Getter(onMethod = @__(@JsonIgnore))
-//    @JsonView({PublisherBasicView.class, UserBasicView.class,OauthUserBasicView.class,OauthUserDetailedView.class})
+    @JsonView({PublisherBasicView.class, UserBasicView.class,OauthUserBasicView.class,OauthUserDetailedView.class})
     private boolean credentialsExpired;
 
     @Getter(onMethod = @__(@JsonIgnore))
-//    @JsonView({PublisherBasicView.class, UserBasicView.class,OauthUserBasicView.class,OauthUserDetailedView.class})
+    @JsonView({PublisherBasicView.class, UserBasicView.class,OauthUserBasicView.class,OauthUserDetailedView.class})
     private boolean enabled;
 
-//    @JsonView({AuditableView.class, UserBasicView.class, OauthUserBasicView.class,OauthUserDetailedView.class})
+    @JsonView({AuditableView.class, UserBasicView.class, OauthUserBasicView.class,OauthUserDetailedView.class})
     private long isDeleted;
-
-    @Transient
-//    @JsonView({AuditableView.class, UserBasicView.class,UserViews.UserRegisterView.class})
-    private String countryIATACode;
-
-//    @JsonView({AuditableView.class, UserBasicView.class,UserViews.UserRegisterView.class,OauthUserDetailedView.class,UserViews.UserRegisterWithTokenView.class})
-    private String phoneCode;
-    
-    @Transient
-    //@Getter(onMethod = @__(@JsonIgnore))
-//    @JsonView({UserViews.UserRegisterView.class})
-    private String otpForEmail;
-    
-    @Transient
-    //@Getter(onMethod = @__(@JsonIgnore))
-//    @JsonView({UserViews.UserRegisterView.class})
-    private String otpForPhone;
-    
-    @Transient
-    //@Getter(onMethod = @__(@JsonIgnore))
-//    @JsonView({UserViews.UserRegisterWithTokenView.class})
-    private String tokenForEmail;
-    
-    @Transient
-    //@Getter(onMethod = @__(@JsonIgnore))
-//    @JsonView({UserViews.UserRegisterWithTokenView.class})
-    private String tokenForPhone;
-
-    @Transient
-//    @JsonView({PublisherBasicView.class})
-    private long otpGeneratedTime;
-    
-//    @JsonView({UserViews.UserRegisterView.class,OauthUserBasicView.class,OauthUserDetailedView.class})
-    private String domain;
 
     @Getter(onMethod = @__(@JsonIgnore))
     @Transient
-//    @JsonView(OauthUserView.class)
+    @JsonView(OauthUserView.class)
     private Collection<? extends GrantedAuthority> authorities;
 
 
-//    @JsonView({PublisherBasicView.class,OauthUserBasicView.class,OauthUserDetailedView.class})
+    @JsonView({PublisherBasicView.class,OauthUserBasicView.class,OauthUserDetailedView.class})
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -229,11 +169,6 @@ public class User implements UserDetails, Serializable {
 
     @Transient
     public Collection<String> allAuthorities;
-
-
-//    @JsonView({UserBasicView.class, PublisherBasicView.class})
-    @Transient
-    private String gomediiId;
     
     private Long attempts;
 

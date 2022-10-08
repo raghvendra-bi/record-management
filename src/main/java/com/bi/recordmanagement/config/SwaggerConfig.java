@@ -34,18 +34,8 @@ public class SwaggerConfig {
 
     @Bean
     public Docket api() {
-//        return new Docket(DocumentationType.SWAGGER_2)
-//                .select()                 
-//                .apis(RequestHandlerSelectors.any())   
-//               // .apis(RequestHandlerSelectors.basePackage("com.gm.clinic.controller"))
-//                .paths(PathSelectors.any())  
-//            	.paths(Predicates.not(PathSelectors.regex("/error.*")))
-//                .build()
-//        		.apiInfo(metaData());
         return new Docket(DocumentationType.SWAGGER_2).select()
                 .apis(RequestHandlerSelectors.basePackage(REST_PACKAGE_PATH))
-//                .apis(Predicates.and(RequestHandlerSelectors.basePackage(REST_PACKAGE_PATH), RequestHandlerSelectors.basePackage("org.springframework.security.oauth2.client")))
-//                .apis(RequestHandlerSelectors.basePackage("org.springframework.security.oauth2.client"))
                 .paths(PathSelectors.any())
                 .build().pathMapping("/")
                 .directModelSubstitute(LocalDate.class, String.class)
@@ -61,10 +51,10 @@ public class SwaggerConfig {
     private ApiInfo getApiInfo() {
         ApiInfo apiInfo = new ApiInfo(
                 "Spring Boot REST API",
-                "Spring Boot REST API for clinics",
+                "Spring Boot REST API",
                 "1.0",
                 "Terms of service",
-                new Contact("GoMedii Auth Service", "https://example.com/about/", "info@gomedii.com"),
+                new Contact("Record Management", "https://example.com/about/", "info@raghendra.com"),
                 "Apache License Version 2.0",
                 "https://www.apache.org/licenses/LICENSE-2.0",
                 new ArrayList<>());
@@ -92,15 +82,6 @@ public class SwaggerConfig {
     @Bean
     SecurityConfiguration security() {
         return new SecurityConfiguration(null, null, null, null, "Bearer access_token", ApiKeyVehicle.HEADER, "Authorization", ",");
-//	    return SecurityConfigurationBuilder.builder()
-//	        .clientId(null)
-//	        .clientSecret(null)
-//	        .realm(null)
-//	        .appName(null)
-//	        .scopeSeparator(",")
-//	        .additionalQueryStringParams(null)
-//	        .useBasicAuthenticationWithAccessCodeGrant(true)
-//	        .build();
     }
 
     @Bean
