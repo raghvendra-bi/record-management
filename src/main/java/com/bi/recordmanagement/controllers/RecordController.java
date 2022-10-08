@@ -44,7 +44,7 @@ public class RecordController {
             @ApiResponse(code = 400, message = "server could not understand the request due to invalid syntax")})
     @PostMapping("/records/upload")
 //    @JsonView(UserViews.UserRegisterView.class)
-//	@PreAuthorize("hasRole('admin')")
+	@PreAuthorize("hasRole('admin')")
 	public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
 	if (Helper.checkExcelFormat(file)) {
         //true
