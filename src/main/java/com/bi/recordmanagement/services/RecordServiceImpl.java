@@ -90,13 +90,16 @@ public class RecordServiceImpl implements RecordService {
     		for(String row:rows) {
     			if(i<cols.size()) {
     				singleRecord.put(cols.get(i), row);
-    				i++;
+    				
     			} else {
     				i=0;
     				records.add(singleRecord);
     				singleRecord = new LinkedHashMap<>();
+    				singleRecord.put(cols.get(i), row);
     			}
+    			i++;
     		}
+    		records.add(singleRecord);
     		recordsWithHeaders.put(entry.getKey(), records);
     		
     	}
