@@ -8,6 +8,6 @@ import com.bi.recordmanagement.models.RecordProgress;
 
 
 @Repository
-public interface RecordProgressRepository extends JpaRepository<RecordProgress, String>, QuerydslPredicateExecutor<RecordProgress> {
+public interface RecordProgressRepository extends JpaRepository<RecordProgress, Long>, QuerydslPredicateExecutor<RecordProgress> {
 
 }

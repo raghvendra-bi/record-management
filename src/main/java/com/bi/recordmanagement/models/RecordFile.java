@@ -54,11 +54,11 @@ public class RecordFile {
 		private Date reviewedOn;
 		
 		@NotAudited
-		@OneToMany(mappedBy = "file", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+		@OneToMany(mappedBy = "file", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 		private List<RecordRow> rows;
 		
 		@NotAudited
-		@OneToMany(mappedBy = "file", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+		@OneToMany(mappedBy = "file", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 		private List<RecordColumn> columns;
 		
 }

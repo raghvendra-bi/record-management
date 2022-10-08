@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import com.bi.recordmanagement.models.RecordColumn;
 
 @Repository
-public interface RecordColumnRepository extends JpaRepository<RecordColumn, String>, QuerydslPredicateExecutor<RecordColumn> {
+public interface RecordColumnRepository extends JpaRepository<RecordColumn, Long>, QuerydslPredicateExecutor<RecordColumn> {
 
 }

@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import com.bi.recordmanagement.models.RecordFile;
 
 @Repository
-public interface RecordFileRepository extends JpaRepository<RecordFile, String>, QuerydslPredicateExecutor<RecordFile> {
+public interface RecordFileRepository extends JpaRepository<RecordFile, Long>, QuerydslPredicateExecutor<RecordFile> {
 
 }

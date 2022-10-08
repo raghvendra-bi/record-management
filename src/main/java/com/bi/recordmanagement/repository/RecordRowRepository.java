@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import com.bi.recordmanagement.models.RecordRow;
 
 @Repository
-public interface RecordRowRepository extends JpaRepository<RecordRow, String>, QuerydslPredicateExecutor<RecordRow> {
+public interface RecordRowRepository extends JpaRepository<RecordRow, Long>, QuerydslPredicateExecutor<RecordRow> {
 
 }

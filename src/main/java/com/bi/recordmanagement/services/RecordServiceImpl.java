@@ -105,6 +105,8 @@ public class RecordServiceImpl implements RecordService {
     
     @Override
     public void deleteRecordFileWithRecordData(Long recordFileId) {
+//    	this.recordFileRepo.getOne(recordFileId)
+    	this.recordFileRepo.deleteById(recordFileId);
     }
 
 

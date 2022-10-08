@@ -81,9 +81,8 @@ public class RecordController {
     // @PreAuthorize("#oauth2.hasScope('bar') and #oauth2.hasScope('read')")
     @PutMapping("/records/review")
     @JsonView(OauthUserDetailedView.class)
-    public void reviewFiles(
-//    		@PathVariable(value = "userId") Long userId
-    		) {
+    public void reviewFiles(@RequestParam(value ="fileIds") List<Long> ids)
+    {
 //        return  userService.getUser(userId);
     }
 	
@@ -97,6 +96,6 @@ public class RecordController {
 	@DeleteMapping("/records/{id}")
 //	@JsonView(OauthUserBasicView.class)
 	public void deleteFile(@PathVariable(value = "id") Long fileId) {
-		
+		this.recordService.deleteRecordFileWithRecordData(fileId);
 	}
 }
