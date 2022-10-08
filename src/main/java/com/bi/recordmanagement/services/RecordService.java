@@ -14,7 +14,7 @@ public interface RecordService {
 
 	Map<Long, List<Map<String, String>>> getAllRecords();
     
-    List<RecordFile> reviewRecords(List<RecordFile> recordFiles);
+    public Boolean reviewRecords(List<Long> ids);
     
     void deleteRecordFileWithRecordData(Long recordFileId);
 }

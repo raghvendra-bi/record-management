@@ -2,9 +2,11 @@ package com.bi.recordmanagement.services;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bi.recordmanagement.exception.RMServiceException;
 import com.bi.recordmanagement.helper.Helper;
 import com.bi.recordmanagement.models.RecordColumn;
 import com.bi.recordmanagement.models.RecordFile;
@@ -22,6 +24,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -90,8 +93,6 @@ public class RecordServiceImpl implements RecordService {
     			}
     		}
     		recordsWithHeaders.put(entry.getKey(), records);
-//    		cols.addAll(rows);
-//    		recordWithHeaders.put(entry.getKey(), cols);
     		
     	}
     	
@@ -99,14 +100,24 @@ public class RecordServiceImpl implements RecordService {
     }
     
     @Override
-    public List<RecordFile> reviewRecords(List<RecordFile> recordFiles) {
-        return this.recordFileRepo.findAll();
+    public Boolean reviewRecords(List<Long> ids) {
+        long updated = this.recordFileRepository.updateModifiedByAndTime("1", ids);
+        if(updated>0) {
+        	return true;
+        } else {
+        	return false;
+        }
     }
     
     @Override
     public void deleteRecordFileWithRecordData(Long recordFileId) {
 //    	this.recordFileRepo.getOne(recordFileId)
-    	this.recordFileRepo.deleteById(recordFileId);
+    	Optional<RecordFile> recordFile = this.recordFileRepo.findById(recordFileId);
+    	if(recordFile.isPresent()) {
+    		this.recordFileRepo.deleteById(recordFileId);
+    	} else {
+    		throw new RMServiceException(HttpStatus.UNPROCESSABLE_ENTITY, "incorrect id");
+    	}
     }
 
 

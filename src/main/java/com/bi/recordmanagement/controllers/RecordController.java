@@ -81,9 +81,10 @@ public class RecordController {
     // @PreAuthorize("#oauth2.hasScope('bar') and #oauth2.hasScope('read')")
     @PutMapping("/records/review")
     @JsonView(OauthUserDetailedView.class)
-    public void reviewFiles(@RequestParam(value ="fileIds") List<Long> ids)
+    public boolean reviewFiles(@RequestParam(value ="fileIds") List<Long> ids)
     {
 //        return  userService.getUser(userId);
+		 return this.recordService.reviewRecords(ids);
     }
 	
 	
