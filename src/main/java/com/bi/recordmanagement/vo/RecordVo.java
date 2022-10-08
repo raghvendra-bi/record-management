@@ -1,5 +1,8 @@
 package com.bi.recordmanagement.vo;
 
-public class RecordVo {
+import java.util.List;
+import java.util.Map;
 
+public class RecordVo {
+	public Map<Long, List<String>> record;
 }

@@ -10,12 +10,19 @@ import com.bi.recordmanagement.models.RecordColumn;
 import com.bi.recordmanagement.models.RecordFile;
 import com.bi.recordmanagement.models.RecordRow;
 import com.bi.recordmanagement.repository.RecordColumnRepository;
+import com.bi.recordmanagement.repository.RecordFileCustomRepository;
 import com.bi.recordmanagement.repository.RecordFileRepository;
 import com.bi.recordmanagement.repository.RecordProgressRepository;
 import com.bi.recordmanagement.repository.RecordRowRepository;
+import com.bi.recordmanagement.vo.RecordVo;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class RecordServiceImpl implements RecordService {
@@ -31,6 +38,9 @@ public class RecordServiceImpl implements RecordService {
     
     @Autowired
     private RecordRowRepository recordRowRepository;
+    
+    @Autowired
+    private RecordFileCustomRepository recordFileRepository;
 
     @Override
     public void save(MultipartFile file) {
@@ -56,8 +66,36 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public List<RecordFile> getAllRecords() {
-        return this.recordFileRepo.findAll();
+    public Map<Long, List<Map<String, String>>> getAllRecords() {
+    	Map<Long, List<RecordColumn>> mapColumn = recordFileRepository.getMapOfFileAndColumns();
+    	Map<Long, List<RecordRow>> mapRow = recordFileRepository.getMapOfFileAndRows();
+    	System.out.println(mapColumn);
+    	System.out.println(mapRow);
+    	Map<Long, List<Map<String, String>>> recordsWithHeaders = new LinkedHashMap<>();
+    	for (Map.Entry<Long,List<RecordColumn>> entry : mapColumn.entrySet()) {
+    		List<String> cols  = entry.getValue().stream().map(col-> col.getColumn()).collect(Collectors.toList());
+    		
+    		List<String> rows = mapRow.get(entry.getKey()).stream().map(row-> row.getRow()).collect(Collectors.toList());
+    		Map<String, String> singleRecord = new LinkedHashMap<>();
+    		List<Map<String, String>> records = new ArrayList<>();
+    		int i=0;
+    		for(String row:rows) {
+    			if(i<cols.size()) {
+    				singleRecord.put(cols.get(i), row);
+    				i++;
+    			} else {
+    				i=0;
+    				records.add(singleRecord);
+    				singleRecord = new LinkedHashMap<>();
+    			}
+    		}
+    		recordsWithHeaders.put(entry.getKey(), records);
+//    		cols.addAll(rows);
+//    		recordWithHeaders.put(entry.getKey(), cols);
+    		
+    	}
+    	
+    	return recordsWithHeaders;
     }
     
     @Override

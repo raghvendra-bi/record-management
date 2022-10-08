@@ -59,6 +59,6 @@ public class RecordFile {
 		
 		@NotAudited
 		@OneToMany(mappedBy = "file", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-		private List<RecordColumn> column;
+		private List<RecordColumn> columns;
 		
 }

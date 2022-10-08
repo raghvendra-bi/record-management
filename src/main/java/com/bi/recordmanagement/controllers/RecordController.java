@@ -21,6 +21,7 @@ import com.bi.recordmanagement.models.User;
 import com.bi.recordmanagement.services.RecordService;
 import com.bi.recordmanagement.utils.GMCAPIJSONInput;
 import com.bi.recordmanagement.views.UserViews;
+import com.bi.recordmanagement.vo.RecordVo;
 import com.bi.recordmanagement.views.OauthUserView.OauthUserBasicView;
 import com.bi.recordmanagement.views.OauthUserView.OauthUserDetailedView;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -65,9 +66,9 @@ public class RecordController {
             @ApiResponse(code = 400, message = "server could not understand the request due to invalid syntax")})
     // @PreAuthorize("#oauth2.hasScope('bar') and #oauth2.hasScope('read')")
     @GetMapping("/records")
-    @JsonView(OauthUserDetailedView.class)
-    public void getFiles() {
-       
+//    @JsonView(OauthUserDetailedView.class)
+    public Map<Long, List<Map<String, String>>> getFiles() {
+       return this.recordService.getAllRecords();
     }
 	
 	

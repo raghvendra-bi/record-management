@@ -80,9 +80,6 @@ public class Helper {
 
                 Iterator<Cell> cells = row.iterator();
 
-
-                
-
                 while (cells.hasNext()) {
                 	RecordRow p = new RecordRow();
                     Cell cell = cells.next();
