@@ -1,8 +1,0 @@
-update configuration set value = 'fsdf87dfh243sdpo34sdffj397' where gmc_key = 'DEV_ACCESS_KEY';
-update configuration set value = '6Le_ptUUAAAAAHdI3qpIUchiGbbe_SLj397sNajI' where gmc_key = 'GOOGLE_CAPTCHA_SECRET';
-update configuration set value = 'http://api.ipstack.com'where gmc_key = 'IP_STACK_BASE_URL';
-update configuration set value = '1dc9953a9ee4c5a92eec1a8e36e795fe' where gmc_key = 'IP_STACK_KEY';
-update configuration set value = 'https://maps.googleapis.com' where gmc_key = 'GMP_BASE_URL';
-update configuration set value = '/maps/api/geocode/json' where gmc_key = 'GMP_API';
-update configuration set value = 'AIzaSyBEPYV2hnfwD8MM7fSkQ91IFtYifIIZ-go' where gmc_key = 'GMP_KEY';
-update configuration set value = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWlkIjoiMmNmZDA1MzYtMmVjMi00YzQ4LThkZWYtMjYwZDVmNWQwYjE5IiwidXNlcl9uYW1lIjoiMiIsInJvbGVzIjpbIlNJVEVfQURNSU4iLCJBRE1JTiIsIkRPQ1RPUiJdLCJzdGFmZiI6MSwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IkNSRUFURV9FTk9VTlRFUiJ9LHsiYXV0aG9yaXR5IjoiQ1JFQVRFX1VTRVIifSx7ImF1dGhvcml0eSI6IkRFTEVURV9VU0VSIn0seyJhdXRob3JpdHkiOiJVUERBVEVfVVNFUiJ9LHsiYXV0aG9yaXR5IjoiUkVBRF9VU0VSIn0seyJhdXRob3JpdHkiOiJBRE1JTiJ9LHsiYXV0aG9yaXR5IjoiRE9DVE9SIn1dLCJjbGllbnRfaWQiOiJnbWMtY2xpZW50IiwiYXVkIjpbImFwaSJdLCJ1c2VyX2lkIjoyLCJzY29wZSI6WyJBRE1JTiIsIkRPQ1RPUiJdLCJkb21haW5OYW1lIjpudWxsLCJpc1ZpcnR1YWxDbGluaWMiOnRydWUsImNsaW5pYyI6IjYiLCJleHAiOjE1ODI3ODMyMjUsImZhY2lsaXRpZXMiOls4LDExNiwxMTgsMTkwXSwiZ29tZWRpaV9pZCI6bnVsbCwianRpIjoiZjI5ZTJlMDEtYjY3Ny00MjQ1LTg4ZWQtMWU1N2E5MTE2ZTk3In0.obluYN7ZvTTwEFP1YTQS59Yrg5Q-1FsQbVqsP-EbLuI' where gmc_key = 'AUTH_KEY';
